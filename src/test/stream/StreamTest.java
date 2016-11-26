@@ -10,16 +10,43 @@ import java.util.stream.Stream;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static java.util.stream.Collectors.joining;
 
 public class StreamTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		numberStreamTest();
+		
+		fileStreamTest();
 
 	}
+	public static void fileStreamTest(){
+		try(Stream<String> lines = Files.lines(Paths.get("d:/vpn2.txt"))){
+			System.out.println("words num is: "+lines.flatMap(l -> Arrays.stream(l.split(" "))).distinct().count()
+			);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	public static void numberStreamTest(){
+		Stream<double[]> pythagoreanTriples = 
+			IntStream.rangeClosed(1, 100).boxed()
+			.flatMap(a -> 
+				IntStream.rangeClosed(a,100)
+					.mapToObj(b -> new double[]{a,b,Math.sqrt(a*a + b*b)}))
+					.filter(t -> t[2]%1 == 0);
+		
+		pythagoreanTriples
+			.forEach(t -> System.out.println(t[0]+","+t[1]+","+t[2]));
+	}
+	
+	
 
 	public static void filterTest() {
 		List<Integer> numbers = Arrays.asList(1, 2, 1, 3, 3, 2, 4);
@@ -108,17 +135,7 @@ public class StreamTest {
 		
 	}
 	
-	public static void numberStreamTest(){
-		Stream<int[]> pythagoreanTriples = 
-			IntStream.rangeClosed(1, 100).boxed()
-			.flatMap(a -> 
-				IntStream.rangeClosed(a,100)
-					.filter(b -> Math.sqrt(a*a + b*b) % 1 == 0)
-					.mapToObj(b -> new int[]{a,b,(int)Math.sqrt(a*a + b*b)}));
-		
-		pythagoreanTriples
-			.forEach(t -> System.out.println(t[0]+","+t[1]+","+t[2]));
-	}
+	
 	
 
 }
