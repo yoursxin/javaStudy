@@ -17,7 +17,7 @@ public class StreamTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		numberStreamTest();
+		testIterate();
 
 	}
 
@@ -118,6 +118,10 @@ public class StreamTest {
 		
 		pythagoreanTriples
 			.forEach(t -> System.out.println(t[0]+","+t[1]+","+t[2]));
+	}
+	
+	public static void testIterate(){
+		Stream.iterate(2, n -> n*2).limit(100).forEach(System.out::println);
 	}
 	
 
