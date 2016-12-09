@@ -24,11 +24,7 @@ public class StreamTest {
 		
 		fileStreamTest();
 
-<<<<<<< HEAD
-		testIterate();
 
-=======
->>>>>>> 43d8d53a8c07aedb43086ceee688f4cef860dd6d
 	}
 	public static void fileStreamTest(){
 		try(Stream<String> lines = Files.lines(Paths.get("d:/vpn2.txt"))){
