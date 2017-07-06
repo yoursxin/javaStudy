@@ -4,6 +4,8 @@ import java.lang.reflect.*;
 public class RunTests {
 
 	public static void main(String[] args) throws Exception{
+		
+		
 		int tests = 0;
 		int passed = 0;
 		Class testClass = Sample2.class;
