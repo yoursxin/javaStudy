@@ -159,6 +159,14 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 		t.printTree();
 		
 	}
+	
+	private int height(BinaryNode<T> r){
+		if(r==null){
+			return -1;
+		}else{
+			return 1+Math.max(height(r.left), height(r.right));
+		}
+	}
 
 	public static void main(String[] args) {
 		BinarySearchTree<Integer> t = new BinarySearchTree<>( );
