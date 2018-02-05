@@ -18,6 +18,20 @@ public final class Sort {
 
 	}
 	
+	public static <T extends Comparable<? super T>> void selectSort(T[] array){
+		for(int i=0; i<array.length;i++){
+			int min =i;
+			for(int j=i+1; j<array.length;j++){
+				if(array[j].compareTo(array[min])<0){
+					min = j;
+				}
+			}
+			T tmp = array[i];
+			array[i] = array[min];
+			array[min] = tmp;
+		}
+	}
+	
 	public static <T extends Comparable<? super T>> void shellSort(T[] array){
 		for(int gap=array.length/2;gap>0;gap/=2){
 			int j;
@@ -32,8 +46,8 @@ public final class Sort {
 	}
 
 	public static void main(String[] args) {
-		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77 };
-		shellSort(testArray);
+		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77,-1 };
+		selectSort(testArray);
 		System.out.println(Arrays.asList(testArray));
 	}
 
