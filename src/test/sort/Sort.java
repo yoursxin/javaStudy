@@ -109,8 +109,56 @@ public final class Sort {
 
 		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77, 15, 29 };
 		System.out.println(Arrays.toString(testArray));
-		mergeSortBTT(testArray);
+		quickSort(testArray);
+		System.out.println(Arrays.toString(testArray));
 
+	}
+	
+	private static <T> void swapRefrence(T[] a, int i,int j){
+		
+		T t = a[i];
+		a[i] = a[j];
+		a[j] = t;
+	}
+	private static <T extends Comparable<? super T>> T median3(T[] a,int left, int right){
+		int center = (left+right)/2;
+		if(a[center].compareTo(a[left])<0){
+			swapRefrence(a,center,left);
+		}
+		if(a[right].compareTo(a[left]) <0){
+			swapRefrence(a,left,right);
+		}
+		if(a[right].compareTo(a[center])<0){
+			swapRefrence(a,right,center);
+		}
+		swapRefrence(a,center,right-1);
+		return a[right-1];
+	}
+	public static <T extends Comparable<? super T>> void quickSort(T[] a){
+		quickSort(a, 0,a.length-1);
+	}
+
+
+	private static   <T extends Comparable<? super T>> void quickSort(T[] a, int left, int right) {
+
+		if(right<=left)
+			return;
+		T pilot = median3(a,left,right);
+		int i=left;
+		int j=right-1;
+		for(;;){
+			while(a[++i].compareTo(pilot)<0){}
+			while(a[--j].compareTo(pilot)>0){}
+			if(i<j) 
+				swapRefrence(a,i,j);
+			else
+				break;
+			
+		}
+		swapRefrence(a,i,right-1);
+		quickSort(a,left,i-1);
+		quickSort(a,i+1,right);
+		
 	}
 
 }
