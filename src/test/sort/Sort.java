@@ -18,12 +18,11 @@ public final class Sort {
 
 	}
 
-	
-	public static <T extends Comparable<? super T>> void selectSort(T[] array){
-		for(int i=0; i<array.length;i++){
-			int min =i;
-			for(int j=i+1; j<array.length;j++){
-				if(array[j].compareTo(array[min])<0){
+	public static <T extends Comparable<? super T>> void selectSort(T[] array) {
+		for (int i = 0; i < array.length; i++) {
+			int min = i;
+			for (int j = i + 1; j < array.length; j++) {
+				if (array[j].compareTo(array[min]) < 0) {
 					min = j;
 				}
 			}
@@ -32,8 +31,6 @@ public final class Sort {
 			array[min] = tmp;
 		}
 	}
-	
-
 
 	public static <T extends Comparable<? super T>> void shellSort(T[] array) {
 		for (int gap = array.length / 2; gap > 0; gap /= 2) {
@@ -90,15 +87,14 @@ public final class Sort {
 
 	}
 
-	
 	// from bottom to top
 	public static <T extends Comparable<? super T>> void mergeSortBTT(T[] a) {
 		T[] aux = (T[]) new Comparable[a.length];
 		int N = a.length;
 		for (int i = 1; i < N; i += i) {
-			for (int j = 0; j < N -i; j += 2 * i) {
-				System.out.println(j + ":"+(j+i-1)+":" + Math.min(j + 2 * i - 1, N - 1));
-				merge(a, aux, j,j+i-1, Math.min(j + 2 * i - 1, N - 1));
+			for (int j = 0; j < N - i; j += 2 * i) {
+				System.out.println(j + ":" + (j + i - 1) + ":" + Math.min(j + 2 * i - 1, N - 1));
+				merge(a, aux, j, j + i - 1, Math.min(j + 2 * i - 1, N - 1));
 				System.out.println(Arrays.toString(a));
 			}
 		}
@@ -107,58 +103,77 @@ public final class Sort {
 
 	public static void main(String[] args) {
 
-		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77, 15, 29 };
+		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77, 66,15, 44,29,33,55,99,14,25,101 };
 		System.out.println(Arrays.toString(testArray));
 		quickSort(testArray);
 		System.out.println(Arrays.toString(testArray));
 
 	}
-	
-	private static <T> void swapRefrence(T[] a, int i,int j){
-		
+
+	private static <T> void swapRefrence(T[] a, int i, int j) {
+
 		T t = a[i];
 		a[i] = a[j];
 		a[j] = t;
 	}
-	private static <T extends Comparable<? super T>> T median3(T[] a,int left, int right){
-		int center = (left+right)/2;
-		if(a[center].compareTo(a[left])<0){
-			swapRefrence(a,center,left);
+
+	private static <T extends Comparable<? super T>> T median3(T[] a, int left, int right) {
+		int center = (left + right) / 2;
+		if (a[center].compareTo(a[left]) < 0) {
+			swapRefrence(a, center, left);
 		}
-		if(a[right].compareTo(a[left]) <0){
-			swapRefrence(a,left,right);
+		if (a[right].compareTo(a[left]) < 0) {
+			swapRefrence(a, left, right);
 		}
-		if(a[right].compareTo(a[center])<0){
-			swapRefrence(a,right,center);
+		if (a[right].compareTo(a[center]) < 0) {
+			swapRefrence(a, right, center);
 		}
-		swapRefrence(a,center,right-1);
-		return a[right-1];
-	}
-	public static <T extends Comparable<? super T>> void quickSort(T[] a){
-		quickSort(a, 0,a.length-1);
+		swapRefrence(a, center, right - 1);
+		return a[right - 1];
 	}
 
+	public static <T extends Comparable<? super T>> void quickSort(T[] a) {
+		quickSort(a, 0, a.length - 1);
+	}
 
-	private static   <T extends Comparable<? super T>> void quickSort(T[] a, int left, int right) {
+	private static final int CUTOFF = 3;
 
-		if(right<=left)
-			return;
-		T pilot = median3(a,left,right);
-		int i=left;
-		int j=right-1;
-		for(;;){
-			while(a[++i].compareTo(pilot)<0){}
-			while(a[--j].compareTo(pilot)>0){}
-			if(i<j) 
-				swapRefrence(a,i,j);
-			else
-				break;
-			
+	private static <T extends Comparable<? super T>> void quickSort(T[] a, int left, int right) {
+
+		if (left + CUTOFF < right) {
+
+			T pilot = median3(a, left, right);
+			int i = left;
+			int j = right - 1;
+			for (;;) {
+				while (a[++i].compareTo(pilot) < 0) {
+				}
+				while (a[--j].compareTo(pilot) > 0) {
+				}
+				if (i < j)
+					swapRefrence(a, i, j);
+				else
+					break;
+
+			}
+			swapRefrence(a, i, right - 1);
+			quickSort(a, left, i - 1);
+			quickSort(a, i + 1, right);
+		} else {
+			insertSort(a, left, right);
 		}
-		swapRefrence(a,i,right-1);
-		quickSort(a,left,i-1);
-		quickSort(a,i+1,right);
-		
+
+	}
+
+	private static <T extends Comparable<? super T>> void insertSort(T[] a, int left, int right) {
+		for (int i = left + 1; i <= right; i++) {
+			T tmp = a[i];
+			int j;
+			for (j = i; j > left && tmp.compareTo(a[j-1]) < 0; j--) {
+				a[j] = a[j - 1];
+			}
+			a[j] = tmp;
+		}
 	}
 
 }
