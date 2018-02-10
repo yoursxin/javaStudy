@@ -103,9 +103,9 @@ public final class Sort {
 
 	public static void main(String[] args) {
 
-		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77, 66,15, 44,29,33,55,99,14,25,101 };
+		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77, 66, 15, 44, 29, 33, 55, 99, 14, 25, 101 };
 		System.out.println(Arrays.toString(testArray));
-		quickSort(testArray);
+		heapSort(testArray);
 		System.out.println(Arrays.toString(testArray));
 
 	}
@@ -169,11 +169,47 @@ public final class Sort {
 		for (int i = left + 1; i <= right; i++) {
 			T tmp = a[i];
 			int j;
-			for (j = i; j > left && tmp.compareTo(a[j-1]) < 0; j--) {
+			for (j = i; j > left && tmp.compareTo(a[j - 1]) < 0; j--) {
 				a[j] = a[j - 1];
 			}
 			a[j] = tmp;
 		}
+	}
+
+	public static <T extends Comparable<? super T>> void heapSort(T[] a) {
+		int n = a.length;
+		for (int i = n / 2; i >= 0; i--) {
+			perdown(a, i, n);
+		}
+		System.out.println(Arrays.toString(a));
+		for (int j = n - 1; j > 0; j--) {
+			swapRefrence(a, 0, j);
+			perdown(a, 0, j);
+		}
+
+	}
+
+	private static int leftChild(int i) {
+		return i * 2 + 1;
+	}
+
+	private static <T extends Comparable<? super T>> void perdown(T[] a, int i, int n) {
+
+		int child;
+		T tmp;
+		for (tmp = a[i]; leftChild(i) < n; i = child) {
+			child = leftChild(i);
+			if (child + 1 < n && a[child + 1].compareTo(a[child]) > 0) {
+				child++;
+			}
+			if (tmp.compareTo(a[child]) < 0) {
+				a[i] = a[child];
+			} else {
+				break;
+			}
+		}
+		a[i] = tmp;
+
 	}
 
 }
