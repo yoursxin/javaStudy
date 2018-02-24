@@ -1,5 +1,6 @@
 package test.inner;
 
+//use .new to create instances of inner classes
 public class DotNew {
 	
 	public class Inner{}
