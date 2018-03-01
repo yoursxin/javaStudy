@@ -17,6 +17,18 @@ public final class Sort {
 		}
 
 	}
+	
+	public static <T extends Comparable<? super T>> void bubbleSort(T[] array){
+		for(int i=array.length-1; i>0; i--){
+			for(int j=0; j<i;j++){
+				if(array[j].compareTo(array[j+1])>0){
+					T tmp = array[j+1];
+					array[j+1] = array[j];
+					array[j] = tmp;							
+				}
+			}
+		}
+	}
 
 	public static <T extends Comparable<? super T>> void selectSort(T[] array) {
 		for (int i = 0; i < array.length; i++) {
@@ -105,7 +117,7 @@ public final class Sort {
 
 		Integer[] testArray = { 3, 1, 5, 0, 9, 88, 77, 66, 15, 44, 29, 33, 55, 99, 14, 25, 101 };
 		System.out.println(Arrays.toString(testArray));
-		heapSort(testArray);
+		bubbleSort(testArray);
 		System.out.println(Arrays.toString(testArray));
 
 	}

@@ -150,6 +150,52 @@ public class BST <Key extends Comparable<Key>, Value>{
 		else
 			return size(n.left)+1+rank(key,n.right);
 	}
+	public void deleteMin(){
+		deleteMin(root);
+	}
+	private Node deleteMin(Node n){		
+		if(n.left == null) 
+			return n.right;
+		n.left = deleteMin(n.left);
+		n.N = size(n.left)+size(n.right)+1;
+		return n;
+	}
+	
+	public void deleteMax(){
+		deleteMax(root);
+	}
+	private Node deleteMax(Node n){
+		if(n.right == null)
+			return n.left;
+		n.right = deleteMax(n.right);
+		n.N = size(n.left)+size(n.right)+1;
+		return n;
+	}
+	
+	public void delete(Key key){
+		delete(root,key);		
+	}
+	
+	private Node delete(Node n, Key key){
+		if(n == null) return null;
+		int cmp = key.compareTo(n.key);
+		if(cmp < 0 ) 
+			n.left = delete(n.left, key);
+		else if(cmp>0)
+			n.right = delete(n.right, key);
+		else{			
+			if(n.left == null)
+				return n.right;
+			else if(n.right == null)
+				return n.left;
+			Node t = n;  
+			n = min(t.right); 
+			n.right = deleteMin(t);
+			n.left = t.left;			
+		}
+		n.N = size(n.left)+size(n.right)+1;
+		return n;
+	}
 
 	public static void main(String[] args) {
 		BST<String,Integer> bst = new BST<>();
@@ -159,12 +205,16 @@ public class BST <Key extends Comparable<Key>, Value>{
 		bst.put("b", 5);
 		bst.put("k", 6);
 		System.out.println(bst.get("d"));
-		System.out.println("min"+bst.min());
+		System.out.println("min:"+bst.min());
 		System.out.println("max:"+bst.max());
 		System.out.println("floor:"+bst.floor("f"));
 		System.out.println("ceiling:"+bst.ceiling("f"));
 		System.out.println("select:"+bst.select(3));
 		System.out.println("rank:"+bst.rank("e"));
+		bst.delete("a");
+		bst.delete("b");
+		System.out.println("min:"+bst.min());
+		
 
 	}
 
