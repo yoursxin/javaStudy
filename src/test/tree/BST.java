@@ -1,5 +1,8 @@
 package test.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BST <Key extends Comparable<Key>, Value>{
 	
 	private class Node{
@@ -196,10 +199,42 @@ public class BST <Key extends Comparable<Key>, Value>{
 		n.N = size(n.left)+size(n.right)+1;
 		return n;
 	}
+	
+	private void keys(Node n, List<Key> list, Key lo,Key hi ){
+		if(n==null) return;
+		int locmp = lo.compareTo(n.key);
+		int hicmp = hi.compareTo(n.key);
+		
+		//下限键值小于当前节点键值，说明在左子树还有值
+		if(locmp < 0)  keys(n.left,list,lo,hi);
+		if(hicmp > 0) keys(n.right,list,lo,hi);
+		if(locmp<=0 && hicmp>=0) list.add(n.key);
+		
+	}
+	
+	public List<Key> keys(){
+		List<Key> list = new ArrayList<>();
+		keys(root,list,min(),max());
+		return list;
+		
+	}
+	
+	public int height(){
+		return height(root);
+	}
+	
+	private int height(Node n){
+		if(n == null) return -1;
+		return Math.max(height(n.left), height(n.right))+1;
+	}
+	private int avgCompare(Node n){
+		if(n == null) return 0;
+		return avgCompare(n.left)+avgCompare(n.right)+n.N;
+	}
 
 	public static void main(String[] args) {
 		BST<String,Integer> bst = new BST<>();
-		bst.put("c", 2);
+		bst.put("d", 2);
 		bst.put("a", 1);
 		bst.put("e", 3);
 		bst.put("b", 5);
@@ -211,9 +246,10 @@ public class BST <Key extends Comparable<Key>, Value>{
 		System.out.println("ceiling:"+bst.ceiling("f"));
 		System.out.println("select:"+bst.select(3));
 		System.out.println("rank:"+bst.rank("e"));
-		bst.delete("a");
-		bst.delete("b");
+		bst.delete("a");		
 		System.out.println("min:"+bst.min());
+		System.out.println(bst.keys());
+		System.out.println("height:"+bst.height());
 		
 
 	}
